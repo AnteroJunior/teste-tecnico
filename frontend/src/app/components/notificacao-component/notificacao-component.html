@@ -1,0 +1,21 @@
+<div class="notificacao-card">
+  <h2>Enviar Notificação</h2>
+  <form [formGroup]="notificationForm" (submit)="sendNotification()">
+    <input
+      type="text"
+      formControlName="conteudoMensagem"
+      placeholder="Digite a mensagem"
+    />
+    <button [disabled]="!notificationForm.valid">Enviar Notificação</button>
+  </form>
+
+  
+  <ul class="lista-card">
+    <h2>Notificações Enviadas</h2>
+    @for (notification of notifications; track $index) {
+    <li class="mensagem-item">
+      <app-card [notification]="notification" />
+    </li>
+    }
+  </ul>
+</div>

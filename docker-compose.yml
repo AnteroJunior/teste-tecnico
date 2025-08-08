@@ -1,0 +1,47 @@
+services:
+  rabbitmq_vr:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq_vr
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - app-net
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend
+    depends_on:
+      - rabbitmq_vr
+    environment:
+      NODE_ENV: production
+      RABBITMQ_URL: amqp://rabbitmq_vr
+      QUEUE_NOTIFICATION_IN: fila.notificacao.entrada.ANTERO
+      QUEUE_NOTIFICATION_STATUS: fila.notificacao.status.ANTERO
+      RMQ_PREFETCH: 1
+      REQUEUE_ON_ERROR: "false"
+    ports:
+      - "3000:3000"
+    networks:
+      - app-net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    depends_on:
+      - backend
+    ports:
+      - "4200:4200"
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    driver: bridge

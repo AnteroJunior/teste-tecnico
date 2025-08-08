@@ -1,0 +1,22 @@
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: white;
+  user-select: none;
+  margin-left: 8px;
+}
+
+.status-badge-success {
+  background-color: #28a745;
+}
+
+.status-badge-waiting {
+  background-color: #ffc107;
+  color: #222;
+}
+
+.status-badge-failure {
+  background-color: #dc3545;
+}
